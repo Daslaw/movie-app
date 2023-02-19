@@ -5,12 +5,13 @@ import {AiFillPlayCircle, AiOutlineClose} from 'react-icons/ai'
 // import Movies from './Movies'
 import NoImg from '../images/NoImage.jpg'
 import '../Styles/Videos.css'
+import TrailerTrending from '../Trailers/TrailerTrending'
 
 function Trends() {
   const Api = `https://api.themoviedb.org/3`
-  const {toggle, inputValue} = useContext(Container)
+  const {toggle} = useContext(Container)
   const TrendsShown = '/trending/all/week'
-  const input = inputValue
+  // const input = inputValue
   const [trailer, setTrailer] = useState(true)
   const[trendTitle, setTrendTitle] = useState('')
   const [trendsArray, setTrendsArray] = useState([])
@@ -29,7 +30,7 @@ function Trends() {
       Trends()
   }, 100);
 
-  }, [input])
+  }, [])
   const TrendTitle = (trend) => {
     setTrendTitle (trend.title)
     setTrailer(!trailer)
@@ -49,6 +50,8 @@ function Trends() {
                 </Fragment>
               )
             })} 
+              {trailer ? console.log :  <TrailerTrending TrendTitle={trendTitle} toggle={toggle}/>   }
+
                   <AiOutlineClose id={trailer ? 'Nothing' : 'Exit1'} className={toggle ? 'DarkTheme' : 'LightThemeClose'} cursor={'pointer'} fontSize={55} color='#fff'  onClick={() => setTrailer(true)}/>
               </div>
         </div>

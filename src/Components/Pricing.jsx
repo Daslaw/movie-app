@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 function Pricing() {
   return (
-    <div>Pricing</div>
+    <Fragment>
+      <div className='background-Color-Main'>
+        <div className='Pricing-Container'>
+          <div className=''>
+
+          </div>
+        </div>
+      </div>
+    </Fragment>
   )
 }
 
