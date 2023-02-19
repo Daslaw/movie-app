@@ -1,28 +1,39 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import "../Styles/Videos.css"
-import {AiFillPlayCircle} from 'react-icons/ai'
+import {AiFillPlayCircle, AiOutlineClose} from 'react-icons/ai'
 import { Container } from './NavBar'
 import NoImg from '../images/NoImage.jpg'
+import TrailerMovies from '../Trailers/TrailerMovies'
 function Movies() {
-    const {toggle} = useContext(Container)
+    const {toggle, inputValue} = useContext(Container)
+    const input = inputValue
     const [moviesData, setMoviesData] = useState([])
     const [trailer, setTrailer] = useState(true)
-    const Api = "https://api.themoviedb.org/3/discover/movie"
+    const Shown = input ? 'search' : 'discover'
+    const [movieTitle, setMovieTitle] = useState('')
+    const Api = `https://api.themoviedb.org/3/${Shown}/movie`
     const Images = 'https://image.tmdb.org/t/p/w500/'
 
     const MovieCall = async () => {
         const data = await axios.get(Api, {
             params : {
                 api_key: '2c33e841987bec12cf42a496bfb40a6c',
+                query: input
             }
         })
         const results = data.data.results
         setMoviesData(results)
     }
-    useEffect(() => {
-        MovieCall()
-    }, [])
+    useEffect(() => {   
+        setTimeout(() => {
+            MovieCall()
+        }, 100);
+    }, [input])
+    const MoviesTitle = (movie) => {
+        setMovieTitle(movie.title)
+        setTrailer(!trailer)
+    }
   return (
     <Fragment>
         <div className={toggle ? "mainBgColor" : 'secondaryBgColor'}>
@@ -31,15 +42,17 @@ function Movies() {
                 return(
                 <Fragment>
                     <div id={trailer ? 'container' : 'NoContainer'}>
-                        <AiFillPlayCircle color='#fff' fontSize={40} id="playIcon"/>
-                    <img src={movie.poster_path ? `${Images}${movie.poster_path}` : NoImg} alt="" />
-                        <h3 id={movie.title.length > 28 ? 'smaller-text' : ''}>{movie.title}</h3>
+                        <AiFillPlayCircle color='#fff' fontSize={40} id={trailer ? "playIcon" : 'hide'} onClick={() => MoviesTitle(movie)}/>
+                    <img src={movie.poster_path ? `${Images}${movie.poster_path}` : NoImg} alt="" onClick={() => MoviesTitle(movie)}/>
+                        <h3 id={movie.title.length > 28 ? 'smaller-text' : ''} className={toggle ? 'mainColor' : 'secondaryColor'} >{movie.title}</h3>
                     </div>
                 </Fragment>
         )
     } )}
+                {trailer ? console.log :  <TrailerMovies moviesTitle={movieTitle}/>   }
+            <AiOutlineClose id={trailer ? 'Nothing' : 'Exit1'} className={toggle ? 'DarkTheme' : 'LightThemeClose'} cursor={'pointer'} fontSize={55} color='#fff'  onClick={() => setTrailer(true)}/>
+        </div>
     </div>
-</div>
 
     </Fragment>
   )
