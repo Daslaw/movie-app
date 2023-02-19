@@ -41,7 +41,7 @@ function NavBar() {
                 </div>
             </nav>
             <Routes>
-                <Route path='' element={<Movies/>}/>            
+                <Route path='/' element={<Movies/>}/>            
                 <Route path='TvShows' element={<TvShows/>}/>            
                 <Route path='Pricing' element={<Pricing/>}/>            
                 <Route path='Trending' element={<Trending/>}/>            
